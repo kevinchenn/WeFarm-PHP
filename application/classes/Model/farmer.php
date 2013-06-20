@@ -6,6 +6,15 @@
 	*/
 	class Model_Farmer extends ORM {
 
+		public function createAccount() {
+			$wepay = new WePay($this->getAccessToken());
+			$response = $wepay->request('account/create/', array(
+	        	'name'          => $this->name,
+	        	'description'   => $this->name."'s WeFarm account"
+	    	));
+	    	$this->saveAccountId($response->account_id);
+		}
+
 		public function saveAccessToken($access_token){
 			$this->wepay_access_token = $access_token;
 			$this->save();
